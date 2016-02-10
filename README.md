@@ -1,35 +1,39 @@
 ```javascript
-var ase = require('agreement-schedules-exhibits-numbering')
+var makeNumbering = require('make-master-attachments-numbering')
 ```
 
-The package is a numbering scheme as described by [abstract-numbering](https://www.npmjs.com/package/abstract-numbering).
+The package generates numbering schemes as described by [abstract-numbering](https://www.npmjs.com/package/abstract-numbering).
 
-# The Agreement
+# The Master
+
+```javascript
+var agreementExhibits = makeNumbering('Agreement', 'Exhibit')
+```
 
 The first child form is the agreement:
 
 ```javascript
 var assert = require('assert')
 assert.equal(
-  ase(
+  agreementExhibits(
     [ { series:  { number: 1, of: 5 },
         element: { number: 1, of: 4 } } ],
     true),
   'Agreement.')
 
 assert.equal(
-  ase(
+  agreementExhibits(
     [ { series:  { number: 1, of: 1 },
         element: { number: 1, of: 1 } } ],
     false),
   'the Agreement')
 ```
 
-Children of the agreement are numbered by [outline-numbering][outline-numbering]:
+Children of the master are numbered by [outline-numbering][outline-numbering]:
 
 ```javascript
 assert.equal(
-  ase(
+  agreementExhibits(
     [ { series:  { number: 1, of: 1 },
         element: { number: 1, of: 1 } },
       { series:  { number: 1, of: 1 },
@@ -37,7 +41,7 @@ assert.equal(
   'Section 1 of the Agreement')
 
 assert.equal(
-  ase(
+  agreementExhibits(
     [ { series:  { number: 1, of: 1 },
         element: { number: 1, of: 1 } },
       { series:  { number: 1, of: 1 },
@@ -47,7 +51,7 @@ assert.equal(
   'Section 1(a) of the Agreement')
 
 assert.equal(
-  ase(
+  agreementExhibits(
     [ { series:  { number: 1, of: 1 },
         element: { number: 1, of: 1 } },
       { series:  { number: 1, of: 1 },
@@ -56,104 +60,56 @@ assert.equal(
   '1.')
 ```
 
-# Schedules
+# Attachments
 
-The second child form contains schedules to the agreement:
+Any other child form is an attachment:
 
 ```javascript
 assert.equal(
-  ase(
-    [ { series:  { number: 1, of: 5 },
-        element: { number: 2, of: 2 } } ],
-    true),
-  'Schedules.')
-
-assert.equal(
-  ase(
+  agreementExhibits(
     [ { series:  { number: 1, of: 1 },
         element: { number: 2, of: 2 } } ],
-    false),
-  'Schedules to the Agreement')
-```
-
-Each of its children is a schedule:
-
-```javascript
-assert.equal(
-  ase(
-    [ { series:  { number: 1, of: 1 },
-        element: { number: 2, of: 2 } },
-      { series:  { number: 1, of: 1 },
-        element: { number: 1, of: 1 } } ],
-    true),
-  'Schedule 1.')
-```
-
-The children of each schedule are numbered by [outline-numbering][outline-numbering] as well:
-
-```javascript
-assert.equal(
-  ase(
-    [ { series:  { number: 1, of: 1 },
-        element: { number: 2, of: 2 } },
-      { series:  { number: 1, of: 1 },
-        element: { number: 1, of: 1 } },
-      { series:  { number: 1, of: 1 },
-        element: { number: 1, of: 1 } } ],
-    false),
-  'Section 1 of Schedule 1')
-```
-
-# Exhibits
-
-Any other child form is an exhibit:
-
-```javascript
-assert.equal(
-  ase(
-    [ { series:  { number: 1, of: 1 },
-        element: { number: 3, of: 3 } } ],
     true),
   'Exhibit 1.')
 
 assert.equal(
-  ase(
+  agreementExhibits(
+    [ { series:  { number: 1, of: 1 },
+        element: { number: 2, of: 2 } } ],
+    false),
+  'Exhibit 1')
+
+assert.equal(
+  agreementExhibits(
     [ { series:  { number: 1, of: 2 },
-        element: { number: 3, of: 3 } } ],
+        element: { number: 2, of: 2 } } ],
     true),
   'Exhibit A-1.')
 
 assert.equal(
-  ase(
+  agreementExhibits(
     [ { series:  { number: 11, of: 11 },
         element: { number: 13, of: 13 } } ],
     true),
   'Exhibit K-13.')
-
-assert.equal(
-  ase(
-    [ { series:  { number: 1, of: 1 },
-        element: { number: 3, of: 3 } } ],
-    false),
-  'Exhibit 1')
 ```
 
-The children of each exhibit are numbered by [outline-numbering][outline-numbering]:
+The children of each attachment are numbered by [outline-numbering][outline-numbering]:
 
 ```javascript
 assert.equal(
-  ase(
+  agreementExhibits(
     [ { series:  { number: 1, of: 1 },
-        element: { number: 3, of: 3 } },
+        element: { number: 2, of: 2 } },
       { series:  { number: 1, of: 1 },
         element: { number: 1, of: 1 } } ],
     false),
   'Section 1 of Exhibit 1')
 
 assert.equal(
-  ase(
+  agreementExhibits(
     [ { series:  { number: 1, of: 1 },
-        element: { number: 3, of: 3 } },
+        element: { number: 2, of: 2 } },
       { series:  { number: 1, of: 1 },
         element: { number: 1, of: 1 } } ],
     true),
