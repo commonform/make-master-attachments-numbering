@@ -29,7 +29,7 @@ assert.equal(
   'the Agreement')
 ```
 
-Children of the master are numbered by [outline-numbering][outline-numbering]:
+By default, children of the master are numbered by [outline-numbering][outline-numbering]:
 
 ```javascript
 assert.equal(
@@ -116,4 +116,21 @@ assert.equal(
   '1.')
 ```
 
+Optionally, [decimal-numbering][decimal-numbering] may be used instead of [outline-numbering][outline-numbering] (*e.g.* `1.2.5`) by adding an optional `'decimal'` argument:
+
+```javascript
+var decimalAgreementExhibits = makeNumbering('Agreement', 'Exhibit', 'decimal')
+
+assert.equal(
+  decimalAgreementExhibits(
+    [ { series:  { number: 1, of: 1 },
+        element: { number: 1, of: 1 } },
+      { series:  { number: 1, of: 1 },
+        element: { number: 1, of: 1 } },
+      { series:  { number: 1, of: 1 },
+        element: { number: 1, of: 1 } } ]),
+  'Section 1.1 of the Agreement')
+```
+
 [outline-numbering]: https://npmjs.com/packages/outline-numbering
+[decimal-numbering]: https://npmjs.com/packages/decimal-numbering
