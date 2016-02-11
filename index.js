@@ -1,6 +1,19 @@
 var outline = require('outline-numbering')
+var decimal = require('decimal-numbering')
 
-module.exports = function (masterName, attachmentName) {
+module.exports = function (masterName, attachmentName, numberingScheme) {
+  if (!numberingScheme) {
+    var numberingScheme = outline
+  } else if (numberingScheme == 'decimal') {
+    numberingScheme = decimal
+  } else {
+    console.log("Invalid numbering scheme supplied; defaulting to outline.")
+    numberingScheme = outline
+  }
+
+  function useDecimal() {
+    numberingScheme = decimal
+  }
   function withinMaster(numbering) {
     var first = numbering[0]
     return (
@@ -24,14 +37,14 @@ module.exports = function (masterName, attachmentName) {
       else {
         return (
           ( !shortForm ? 'Section ' : '' ) +
-          stripNounPrefix(outline(numbering.slice(1), shortForm)) +
+          stripNounPrefix(numberingScheme(numbering.slice(1), shortForm)) +
           ( !shortForm ? ( ' of the ' + masterName ) : '' ) ) } }
     else {
       var inFirstSeries = ( numbering[0].series.number === 1 )
       var attachmentNumber = (
         attachmentName + ' ' +
         stripNounPrefix(
-          outline(
+          numberingScheme(
             [ { series: {
                   number: first.series.number,
                   of: first.series.of },
@@ -50,5 +63,5 @@ module.exports = function (masterName, attachmentName) {
       else {
         return (
           ( !shortForm ? 'Section ' : '' ) +
-          stripNounPrefix(outline(numbering.slice(1), shortForm)) +
+          stripNounPrefix(numberingScheme(numbering.slice(1), shortForm)) +
           ( !shortForm ? ( ' of ' + attachmentNumber ) : '' ) ) } } } }
