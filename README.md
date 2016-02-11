@@ -116,6 +116,8 @@ assert.equal(
   '1.')
 ```
 
+# Decimal Numbering Option
+
 Optionally, [decimal-numbering][decimal-numbering] may be used instead of [outline-numbering][outline-numbering] (*e.g.* `1.2.5`) by adding an optional `'decimal'` argument:
 
 ```javascript
