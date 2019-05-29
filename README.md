@@ -1,3 +1,9 @@
+# make-master-attachments-numbering
+
+make numberings for master documents followed by attachments
+
+make-master-attachments-numbering is part of the [abstract-numbering](https://www.npmjs.com/search?q=keywords:abstract-numbering) family of packages.  This package is used to generate a few others numberings in the family.
+
 ```javascript
 var makeNumbering = require('make-master-attachments-numbering')
 ```
